@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import { AlignLeft, LayoutGrid } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 function WorkspaceList() {
@@ -13,7 +14,9 @@ function WorkspaceList() {
     <div className="my-10 p-10 md:px-24 lg:px-36 xl:px-52">
       <div className="flex justify-between">
         <h2 className="font-bold text-2xl">Hello, {user?.fullName}</h2>
-        <Button>+</Button>
+        <Link href={"/createworkspace"}>
+          <Button>+</Button>
+        </Link>
       </div>
 
       <div className="m-10 flex justify-between">
@@ -37,9 +40,10 @@ function WorkspaceList() {
           />
 
           <h2 className="font-medium text-primary">Creae New Workspace</h2>
-          <Button variant="outline" className="my-3">
-            New Workspace
-          </Button>
+
+          <Link href={"/createworkspace"}>
+            <Button className="my-3">New Workspace</Button>
+          </Link>
         </div>
       ) : (
         <div>
