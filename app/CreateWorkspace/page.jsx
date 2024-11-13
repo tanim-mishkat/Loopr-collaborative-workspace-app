@@ -32,7 +32,7 @@ function CreateWorkspace() {
       coverImage: coverImage,
       createdBy: user?.primaryEmailAddress?.emailAddress,
       id: docId,
-      orgId: orgId ? orgId : primaryEmailAddress?.emailAddress,
+      orgId: orgId ? orgId : user?.primaryEmailAddress?.emailAddress,
     });
     setLoading(false);
     router.replace("/workspace/" + docId);

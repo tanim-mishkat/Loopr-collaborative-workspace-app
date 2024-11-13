@@ -4,7 +4,6 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-
 // Load Outfit font
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -30,7 +29,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider dynamic>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
@@ -39,6 +38,5 @@ export default function RootLayout({ children }) {
         </body>
       </html>
     </ClerkProvider>
-
   );
 }
