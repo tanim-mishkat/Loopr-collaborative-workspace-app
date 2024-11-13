@@ -14,7 +14,11 @@ function CreateWorkspace() {
   return (
     <div className="p-10 md:px-36 lg:px-64 xl:px-80 py-28 px-96">
       <div className="shadow-2xl rounded-xl">
+<<<<<<< HEAD
         {/*cover image*/}
+=======
+        {/cover image/}
+>>>>>>> 851b8c25d5ab8a7843e61d640828d6eb951ee41d
         <CoverPicker setNewCover={(e) => setCoverImage(e)}>
           <div className="relative group hover:cursor-pointer h-48">
             {/* Initially hides the "Change Cover" text; displays it as a flex container centered within the image when parent is hovered */}
@@ -61,4 +65,8 @@ function CreateWorkspace() {
   );
 }
 
+<<<<<<< HEAD
 export default CreateWorkspace;
+=======
+export default CreateWorkspace;
+>>>>>>> 851b8c25d5ab8a7843e61d640828d6eb951ee41d

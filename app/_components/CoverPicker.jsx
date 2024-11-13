@@ -60,4 +60,8 @@ function CoverPicker({ children, setNewCover }) {
     </Dialog>
   );
 }
+<<<<<<< HEAD
 export default CoverPicker;
+=======
+export default CoverPicker;
+>>>>>>> 851b8c25d5ab8a7843e61d640828d6eb951ee41d
