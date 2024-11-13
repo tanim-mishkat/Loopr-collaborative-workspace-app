@@ -22,8 +22,4 @@ function EmojiPickerComp({ children, setEmojiIcon }) {
   );
 }
 
-<<<<<<< HEAD
 export default EmojiPickerComp;
-=======
-export default EmojiPickerComp;
->>>>>>> 851b8c25d5ab8a7843e61d640828d6eb951ee41d
