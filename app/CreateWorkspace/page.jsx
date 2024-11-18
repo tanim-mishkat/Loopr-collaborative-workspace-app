@@ -10,6 +10,7 @@ import { Loader2Icon, SmilePlus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import uuid4 from "uuid4";
 
 function CreateWorkspace() {
   const [coverImage, setCoverImage] = useState("/cover2.jpg");
@@ -25,17 +26,35 @@ function CreateWorkspace() {
 */
   const onCreateWorkspace = async () => {
     setLoading(true);
-    const docId = Date.now();
-    const result = await setDoc(doc(db, "Workspace", docId.toString()), {
+    const workspaceId = Date.now();
+    await setDoc(doc(db, "Workspace", workspaceId.toString()), {
       workspaceName: workspaceName,
       emoji: emoji || "",
       coverImage: coverImage,
       createdBy: user?.primaryEmailAddress?.emailAddress,
-      id: docId,
+      id: workspaceId,
       orgId: orgId ? orgId : user?.primaryEmailAddress?.emailAddress,
     });
+
+    const docId = uuid4();
+
+    await setDoc(doc(db, "WorkspaceDocuments", docId.toString()), {
+      workspaceId: workspaceId,
+      documentName: "Untitled Document",
+      createdBy: user?.primaryEmailAddress?.emailAddress,
+      coverImage: null,
+      emoji: null,
+      Id: docId,
+      documentOutput: [],
+    });
+
+    await setDoc(doc(db, "documentOutput", docId.toString()), {
+      docId: docId,
+      output: [],
+    });
+
     setLoading(false);
-    router.replace("/workspace/" + docId);
+    router.replace("/workspace/" + workspaceId + "/" + docId);
     console.log("data inserted");
   };
 
