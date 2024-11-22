@@ -2,9 +2,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import DocumentOptions from "./DocumentOptions";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/config/firebaseConfig";
+import { toast } from "sonner";
 
 function DocumentList({ documentList, params }) {
   const router = useRouter();
+  const deleteDocument = async (Id) => {
+    await deleteDoc(doc(db, "WorkspaceDocuments", Id));
+    toast("Document deleted successfully");
+  };
   return (
     <div>
       {documentList.map((doc, index) => (
@@ -31,7 +38,10 @@ function DocumentList({ documentList, params }) {
               {doc.documentName}
             </h2>
           </div>
-          <DocumentOptions />
+          <DocumentOptions
+            doc={doc}
+            deleteDocument={(Id) => deleteDocument(Id)}
+          />
         </div>
       ))}
     </div>
