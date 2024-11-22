@@ -16,12 +16,15 @@ import DocumentList from "./DocumentList";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import uuid4 from "uuid4";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 
 function SideNav({ params }) {
   const { user } = useUser();
   const [documentList, setDocumentList] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const MAX_FILE = 5;
 
   useEffect(() => {
     params && getDocumentList();
@@ -52,6 +55,17 @@ function SideNav({ params }) {
    */
 
   const createNewDocument = async () => {
+    if (documentList.length >= MAX_FILE) {
+      toast("Upgrade to create more than 5 documents", {
+        description:
+          "You have reached the maximum number of documents. Upgrade to create more.",
+        action: {
+          label: "Upgrade",
+          onClick: () => console.log("Undo"),
+        },
+      });
+      return;
+    }
     setLoading(true);
     const docId = uuid4();
     await setDoc(doc(db, "WorkspaceDocuments", docId.toString()), {
@@ -62,6 +76,11 @@ function SideNav({ params }) {
       emoji: null,
       Id: docId,
       documentOutput: [],
+    });
+
+    await setDoc(doc(db, "documentOutput", docId.toString()), {
+      docId: docId,
+      output: [],
     });
 
     setLoading(false);
@@ -85,6 +104,16 @@ function SideNav({ params }) {
       </div>
       {/* document list */}
       <DocumentList documentList={documentList} params={params} />
+
+      <div className="absolute bottom-10 w-[85%]">
+        <Progress value={(documentList?.length / MAX_FILE) * 100} />
+        <h2 className="text-sm font-light my-2 ">
+          <strong>{documentList?.length}</strong> out of 5 files used
+        </h2>
+        <h2 className="text-sm font-light">
+          Upgrade your plan for unlimited access
+        </h2>
+      </div>
     </div>
   );
 }

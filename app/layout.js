@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 // Load Outfit font
 const outfit = Outfit({
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
         >
+
+          <Toaster />
           {children}
         </body>
       </html>
