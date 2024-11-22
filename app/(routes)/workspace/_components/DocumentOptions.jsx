@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-function DocumentOptions() {
+function DocumentOptions({ doc, deleteDocument }) {
   return (
     <div>
       <DropdownMenu>
@@ -24,7 +24,13 @@ function DocumentOptions() {
           <DropdownMenuItem className="flex  gap-2">
             <PenBox className="h-4 w-4" /> Rename
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex  gap-2 text-red-500">
+          <DropdownMenuItem
+            className="flex  gap-2 text-red-500"
+            onClick={() => {
+              console.log("delete 1", doc?.Id);
+              deleteDocument(doc?.Id);
+            }}
+          >
             <Trash2Icon className="h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
