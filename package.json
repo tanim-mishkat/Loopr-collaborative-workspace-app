@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.3.0",
+    "@clerk/nextjs": "^6.5.1",
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/editorjs": "^2.30.7",
     "@editorjs/header": "^2.8.8",
     "@editorjs/image": "^2.10.0",
     "@editorjs/list": "^2.0.2",
     "@editorjs/table": "^2.4.2",
+    "@google/generative-ai": "^0.21.0",
     "@liveblocks/client": "^2.13.0",
     "@liveblocks/node": "^2.13.0",
     "@liveblocks/react": "^2.13.0",

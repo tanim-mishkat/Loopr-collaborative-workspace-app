@@ -8,6 +8,8 @@ import EditorjsList from "@editorjs/list";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebaseConfig";
 import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import GenerateAiTemplate from "./GenerateAiTemplate";
 
 function RichTextEditor({ params }) {
   const ref = useRef();
@@ -26,12 +28,16 @@ function RichTextEditor({ params }) {
   // }, [params]);
 
   const saveDocument = () => {
+    console.log("saved document");
     ref.current.save().then(async (outputData) => {
       const docRef = doc(db, "documentOutput", params?.docId);
-      console.log("docref doc id : ", params?.docId);
+      console.log("docref doc docId : ", params?.docId);
+      console.log("docref doc documentId : ", params?.documentId);
+      console.log("docref doc documentid : ", params?.documentid);
+
       await updateDoc(docRef, {
-        output: outputData,
-        editedBy: user?.primaryEmailAddress?.emailAddress,
+        output: JSON.stringify(outputData),
+        editedBy: user?.primaryEmailAddress.emailAddress,
       });
     });
   };
@@ -45,7 +51,7 @@ function RichTextEditor({ params }) {
           doc.data()?.editedBy != user?.primaryEmailAddress?.emailAddress
         ) {
           isFetch = true;
-          doc.data()?.output && editor.render(doc.data()?.output);
+          doc.data()?.output && editor.render(JSON.parse(doc.data()?.output));
         }
       }
     );
@@ -82,6 +88,11 @@ function RichTextEditor({ params }) {
   return (
     <div className="lg:-ml-80  md:-ml-40">
       <div id="editorjs"></div>
+      <div className="fixed bottom-10 md:ml-80 left-0 z-10">
+        <GenerateAiTemplate
+          setGenerateAiOutput={(output) => editor.render(output)}
+        />
+      </div>
     </div>
   );
 }
