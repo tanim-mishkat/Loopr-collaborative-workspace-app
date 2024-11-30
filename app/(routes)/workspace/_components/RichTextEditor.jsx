@@ -1,29 +1,64 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 
 import Table from "@editorjs/table";
 
 import EditorjsList from "@editorjs/list";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { db } from "@/config/firebaseConfig";
+import { useUser } from "@clerk/nextjs";
 
-function RichTextEditor() {
+function RichTextEditor({ params }) {
   const ref = useRef();
-  const saveDocument = () => {
-    ref.current.save().then((outputData) => {
-      console.log(outputData);
-    });
-  };
+
   let editor;
+  const [documentOutput, setDocumentOutput] = useState([]);
+  let isFetch = false;
+  const { user } = useUser();
 
   useEffect(() => {
-    initEditor();
-  }, []);
+    user && initEditor();
+  }, [user]);
+
+  // useEffect(() => {
+  //   params && GetDocumentOutput();
+  // }, [params]);
+
+  const saveDocument = () => {
+    ref.current.save().then(async (outputData) => {
+      const docRef = doc(db, "documentOutput", params?.docId);
+      console.log("docref doc id : ", params?.docId);
+      await updateDoc(docRef, {
+        output: outputData,
+        editedBy: user?.primaryEmailAddress?.emailAddress,
+      });
+    });
+  };
+
+  const GetDocumentOutput = () => {
+    const unsubscribe = onSnapshot(
+      doc(db, "documentOutput", params?.docId),
+      (doc) => {
+        if (
+          isFetch === false ||
+          doc.data()?.editedBy != user?.primaryEmailAddress?.emailAddress
+        ) {
+          isFetch = true;
+          doc.data()?.output && editor.render(doc.data()?.output);
+        }
+      }
+    );
+  };
 
   const initEditor = () => {
     if (!editor?.current) {
       editor = new EditorJS({
         onChange: (api, event) => {
           saveDocument();
+        },
+        onReady: () => {
+          GetDocumentOutput();
         },
         holder: "editorjs",
         tools: {
@@ -40,12 +75,12 @@ function RichTextEditor() {
           },
         },
       });
+      ref.current = editor;
     }
-    ref.current = editor;
   };
 
   return (
-    <div className="-ml-80">
+    <div className="lg:-ml-80  md:-ml-40">
       <div id="editorjs"></div>
     </div>
   );

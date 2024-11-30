@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -16,7 +17,7 @@ function DocumentList({ documentList, params }) {
     <div>
       {documentList.map((doc, index) => (
         <div
-          key={index}
+          key={doc.id}
           className={`mt-3 p-2 px-3 hover:bg-gray-200 rounded-lg flex justify-between items-center cursor-pointer ${
             doc.id == params?.Id && "bg-white"
           }`}
