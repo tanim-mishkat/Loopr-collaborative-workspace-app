@@ -1,15 +1,38 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/nextjs";
+import { db } from "@/config/firebaseConfig";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { collection, doc, getDocs, query } from "firebase/firestore";
 import { AlignLeft, LayoutGrid } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function WorkspaceList() {
   const { user } = useUser();
+  const { orgId } = useAuth();
   const [workspaceList, setWorkspaceList] = useState([]);
   //   console.log("work", WorkspaceList);
+
+  useEffect(() => {
+    user && getWorkspaceList();
+  }, [orgId, user]);
+
+  const getWorkspaceList = async () => {
+    setWorkspaceList([]);
+    const q = query(
+      collection(db, "Workspace"),
+      where(
+        "orgId",
+        "==",
+        orgId ? orgId : user?.primaryEmailAddress.emailAddress
+      )
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setWorkspaceList((prev) => [...prev, doc.data()]);
+    });
+  };
   return (
     <div className="my-10 p-10 md:px-24 lg:px-36 xl:px-52">
       <div className="flex justify-between">
@@ -47,7 +70,7 @@ function WorkspaceList() {
         </div>
       ) : (
         <div>
-          <h2 className="font-medium text-primary">Workspace List</h2>
+          <WorksspaceitemList workspaceList={workspaceList} />
         </div>
       )}
     </div>

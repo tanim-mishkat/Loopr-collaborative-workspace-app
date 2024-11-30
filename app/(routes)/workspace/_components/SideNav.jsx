@@ -33,13 +33,13 @@ function SideNav({ params }) {
    * used to fetch all the document from a workspace
    */
   const getDocumentList = () => {
-    // console.log("SideNav received params:", params?.workspaceid);
+    console.log("SideNav received params:", params?.workspaceid);
     const q = query(
       collection(db, "WorkspaceDocuments"),
       where("workspaceId", "==", Number(params?.workspaceid))
     );
 
-    setDocumentList([]);
+    // setDocumentList([]);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const documents = []; // Temporary array to collect documents
       querySnapshot.forEach((doc) => {
@@ -66,11 +66,16 @@ function SideNav({ params }) {
       });
       return;
     }
+    if (!params?.workspaceid) {
+      alert("workspaceid is missing in params");
+      return;
+    }
+    alert(params?.documentid);
     setLoading(true);
     const docId = uuid4();
     await setDoc(doc(db, "WorkspaceDocuments", docId.toString()), {
-      workspaceId: Number(params?.workspaceid),
-      documentName: "new Document",
+      workspaceId: params?.workspaceid,
+      documentName: "Untitled Document",
       createdBy: user?.primaryEmailAddress?.emailAddress,
       coverImage: null,
       emoji: null,
