@@ -15,9 +15,9 @@ export async function POST(request) {
         user?.primaryEmailAddress.emailAddress,
     );
 
-    // const { room } = await request.json();
+    const { room } = await request.json();
     const { searchParmas } = new URL(request?.url);
-    const roomId = searchParmas.get("roomId");
+    const { roomId } = searchParmas.get("roomId");
 
     session.allow(roomId, session?.FULL_ACCESS);
 
