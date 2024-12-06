@@ -10,7 +10,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { Bell, Loader2Icon } from "lucide-react";
+import { Bell, Loader2Icon, Menu, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import DocumentList from "./DocumentList";
 import uuid4 from "uuid4";
@@ -26,7 +26,9 @@ function SideNav({ params }) {
   const [documentList, setDocumentList] = useState([]);
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for mobile sidebar
   const router = useRouter();
+
   useEffect(() => {
     params && GetDocumentList();
   }, [params]);
@@ -55,10 +57,10 @@ function SideNav({ params }) {
     if (documentList?.length >= MAX_FILE) {
       toast("Upgrade to add new file", {
         description:
-          "You reach max file, Please upgrad for unlimited file creation",
+          "You reach max file, Please upgrade for unlimited file creation",
         action: {
           label: "Upgrade",
-          onClick: () => console.log("Undo"),
+          onClick: () => console.log("Upgrade clicked"),
         },
       });
       return;
@@ -89,41 +91,93 @@ function SideNav({ params }) {
   };
 
   return (
-    <div
-      className="h-screen md:w-72 
-    hidden md:block fixed bg-blue-50 p-5 shadow-md"
-    >
-      <div className="flex justify-between items-center">
-        <Logo />
-        <NotifiationBox>
-          <Bell className="h-5 w-5 text-gray-500" />
-        </NotifiationBox>
-      </div>
-      <hr className="my-5"></hr>
-      <div>
+    <div>
+      {/* Hamburger Icon */}
+      <button
+        className="md:hidden fixed top-5 left-5 z-50"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+
+      {/* Sidebar for Desktop */}
+      <div
+        className="h-screen md:w-72 hidden md:block fixed bg-blue-50 p-5 shadow-md"
+      >
         <div className="flex justify-between items-center">
-          <h2 className="font-medium">Workspace Name</h2>
-          <Button size="sm" className="text-lg" onClick={CreateNewDocument}>
-            {loading ? <Loader2Icon className="h-4 w-4 animate-spin" /> : "+"}
-          </Button>
+          <Logo />
+          <NotifiationBox>
+            <Bell className="h-5 w-5 text-gray-500" />
+          </NotifiationBox>
+        </div>
+        <hr className="my-5"></hr>
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="font-medium">Workspace Name</h2>
+            <Button size="sm" className="text-lg" onClick={CreateNewDocument}>
+              {loading ? <Loader2Icon className="h-4 w-4 animate-spin" /> : "+"}
+            </Button>
+          </div>
+        </div>
+
+        {/* Document List */}
+        <DocumentList documentList={documentList} params={params} />
+
+        {/* Progress Bar */}
+        <div className="absolute bottom-10 w-[85%]">
+          <Progress value={(documentList?.length / MAX_FILE) * 100} />
+          <h2 className="text-sm font-light my-2">
+            <strong>{documentList?.length}</strong> Out of <strong>5</strong> files used
+          </h2>
+          <h2 className="text-sm font-light ">
+            Upgrade your plan for unlimited access
+          </h2>
         </div>
       </div>
 
-      {/* Document List  */}
-      <DocumentList documentList={documentList} params={params} />
+      {/* Sidebar Drawer for Mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed top-0 left-0 w-[75%] h-full bg-blue-50 shadow-md p-5 z-40 md:hidden"
+        >
+          <div className="flex justify-between items-center">
+            <Logo />
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="text-gray-500"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+          <hr className="my-5"></hr>
+          <div>
+            <div className="flex justify-between items-center">
+              <h2 className="font-medium">Workspace Name</h2>
+              <Button size="sm" className="text-lg" onClick={CreateNewDocument}>
+                {loading ? (
+                  <Loader2Icon className="h-4 w-4 animate-spin" />
+                ) : (
+                  "+"
+                )}
+              </Button>
+            </div>
+          </div>
 
-      {/* Progress Bar  */}
+          {/* Document List */}
+          <DocumentList documentList={documentList} params={params} />
 
-      <div className="absolute bottom-10 w-[85%]">
-        <Progress value={(documentList?.length / MAX_FILE) * 100} />
-        <h2 className="text-sm font-light my-2">
-          <strong>{documentList?.length}</strong> Out of <strong>5</strong>{" "}
-          files used
-        </h2>
-        <h2 className="text-sm font-light ">
-          Upgrade your plan for unlimted access
-        </h2>
-      </div>
+          {/* Progress Bar */}
+          <div className="absolute bottom-10 w-[85%]">
+            <Progress value={(documentList?.length / MAX_FILE) * 100} />
+            <h2 className="text-sm font-light my-2">
+              <strong>{documentList?.length}</strong> Out of <strong>5</strong> files used
+            </h2>
+            <h2 className="text-sm font-light ">
+              Upgrade your plan for unlimited access
+            </h2>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
