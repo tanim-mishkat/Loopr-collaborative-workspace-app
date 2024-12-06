@@ -1,9 +1,11 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: false,
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
     images: {
-        domains: ["img.freepik.com"], // Your image source domain
+        domains: ['img.freepik.com']
     },
 };
 

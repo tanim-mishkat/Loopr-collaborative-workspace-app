@@ -1,28 +1,36 @@
-import DocumentHeader from "@/app/_components/DocumentHeader";
 import React, { useState } from "react";
+import DcoumentHeader from "./DcoumentHeader";
 import DocumentInfo from "./DocumentInfo";
-import EditorJS from "@editorjs/editorjs";
-import RichTextEditor from "./RichTextEditor";
+// import RichDocumentEditor from "./RichDocumentEditor";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, X } from "lucide-react";
 import CommentBox from "./CommentBox";
+import dynamic from "next/dynamic";
 
 function DocumentEditorSection({ params }) {
+  // Dynamically import RichDocumentEditor with SSR disabled
+  const RichDocumentEditor = dynamic(
+    () => import("../_components/RichDocumentEditor"),
+    { ssr: false }
+  );
   const [openComment, setOpenComment] = useState(false);
   return (
-    <div>
-      <DocumentHeader />
+    <div className="relative">
+      {/* Header  */}
+      <DcoumentHeader />
+
+      {/* Document Info  */}
       <DocumentInfo params={params} />
-      <div className="grid grid-cols-4">
-        <div className="col-span-3">
-          <RichTextEditor params={params} />
-        </div>
-        <div className="fixed bottom-5 right-5">
-          <Button onClick={() => setOpenComment(!openComment)}>
-            {openComment ? <X /> : <MessageCircle />}
-          </Button>
-          {openComment && <CommentBox />}
-        </div>
+
+      {/* Rich Text Editor  */}
+
+      <RichDocumentEditor params={params} />
+
+      <div className="fixed right-10 bottom-10 ">
+        <Button onClick={() => setOpenComment(!openComment)}>
+          {openComment ? <X /> : <MessageCircle />}{" "}
+        </Button>
+        {openComment && <CommentBox />}
       </div>
     </div>
   );
