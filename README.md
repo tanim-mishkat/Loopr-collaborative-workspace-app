@@ -1,5 +1,3 @@
----
-
 # Loopr | A Collaborative Workspace Application
 
 **Version:** 0.1.0  
