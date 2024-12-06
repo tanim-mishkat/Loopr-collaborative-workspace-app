@@ -12,27 +12,19 @@ import { db } from "@/config/firebaseConfig";
 export function Room({ children, params }) {
   return (
     <LiveblocksProvider
-      authEndpoint={"/api/liveblocks-auth?roomId=" + params?.documentid}
+      // publicApiKey={process.env.NEXT_PUBLIC_LIVEBLOCK_PK}
+      authEndpoint={"/api/liveblocks-auth?roomId=" + params?.documentid || "1"}
       resolveUsers={async ({ userIds }) => {
-        // ["marc@example.com", ...]
-        console.log(userIds);
-
-        // Fetch the users from your database
         const q = query(
           collection(db, "LoopUsers"),
           where("email", "in", userIds)
         );
         const querySnapshot = await getDocs(q);
-
-        let userList = [];
-
+        const userList = [];
         querySnapshot.forEach((doc) => {
           console.log(doc.data());
           userList.push(doc.data());
         });
-
-        // Return a list of users
-        // ...
         return userList;
       }}
       resolveMentionSuggestions={async ({ text, roomId }) => {
@@ -41,24 +33,23 @@ export function Room({ children, params }) {
           where("email", "!=", null)
         );
         const querySnapshot = await getDocs(q);
-
         let userList = [];
-
         querySnapshot.forEach((doc) => {
-          console.log(doc.data());
           userList.push(doc.data());
         });
+        console.log(userList);
 
         if (text) {
           // Filter any way you'd like, e.g. checking if the name matches
           userList = userList.filter((user) => user.name.includes(text));
         }
+        console.log(userList.map((user) => user.email));
 
-        // Return the filtered `userIds`
-        return userList.map((user) => user.id);
+        // Return a list of user IDs that match the query
+        return userList.map((user) => user.email);
       }}
     >
-      <RoomProvider id={params?.documentid}>
+      <RoomProvider id={params?.documentid ? params?.documentid : "1"}>
         <ClientSideSuspense fallback={<div>Loading…</div>}>
           {children}
         </ClientSideSuspense>

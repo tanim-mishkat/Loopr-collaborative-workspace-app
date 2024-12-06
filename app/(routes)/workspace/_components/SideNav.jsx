@@ -13,53 +13,49 @@ import {
 import { Bell, Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import DocumentList from "./DocumentList";
+import uuid4 from "uuid4";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import uuid4 from "uuid4";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import NotificationBox from "./NotificationBox";
+import NotifiationBox from "./NotifiationBox";
+
+const MAX_FILE = process.env.NEXT_PUBLIC_MAX_FILE_SIZE;
 
 function SideNav({ params }) {
-  const { user } = useUser();
   const [documentList, setDocumentList] = useState([]);
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const MAX_FILE = 5;
-
   useEffect(() => {
-    params && getDocumentList();
+    params && GetDocumentList();
   }, [params]);
+
   /**
-   * used to fetch all the document from a workspace
+   * Used to get Document List
    */
-  const getDocumentList = () => {
-    console.log("SideNav received params:", params?.workspaceid);
+  const GetDocumentList = () => {
     const q = query(
-      collection(db, "WorkspaceDocuments"),
+      collection(db, "workspaceDocuments"),
       where("workspaceId", "==", Number(params?.workspaceid))
     );
-
-    // setDocumentList([]);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const documents = []; // Temporary array to collect documents
-      querySnapshot.forEach((doc) => {
-        documents.push(doc.data());
-      });
       setDocumentList([]);
-      setDocumentList(documents);
+
+      querySnapshot.forEach((doc) => {
+        setDocumentList((documentList) => [...documentList, doc.data()]);
+      });
     });
   };
 
   /**
-   * create new document
+   * Create New Document
    */
-
-  const createNewDocument = async () => {
-    if (documentList.length >= MAX_FILE) {
-      toast("Upgrade to create more than 5 documents", {
+  const CreateNewDocument = async () => {
+    if (documentList?.length >= MAX_FILE) {
+      toast("Upgrade to add new file", {
         description:
-          "You have reached the maximum number of documents. Upgrade to create more.",
+          "You reach max file, Please upgrad for unlimited file creation",
         action: {
           label: "Upgrade",
           onClick: () => console.log("Undo"),
@@ -67,20 +63,19 @@ function SideNav({ params }) {
       });
       return;
     }
-    if (!params?.workspaceid) {
-      alert("workspaceid is missing in params");
+    if (!user || !user.primaryEmailAddress?.emailAddress) {
+      toast.error("Unable to create document. User information is missing.");
       return;
     }
-    alert(params?.documentid);
     setLoading(true);
     const docId = uuid4();
-    await setDoc(doc(db, "WorkspaceDocuments", docId.toString()), {
-      workspaceId: params?.workspaceid,
-      documentName: "Untitled Document",
+    await setDoc(doc(db, "workspaceDocuments", docId.toString()), {
+      workspaceId: Number(params?.workspaceid),
       createdBy: user?.primaryEmailAddress?.emailAddress,
-      coverImage: null,
-      emoji: null,
-      Id: docId,
+      coverImage: "",
+      emoji: "",
+      id: docId,
+      documentName: "Untitled Document",
       documentOutput: [],
     });
 
@@ -91,35 +86,42 @@ function SideNav({ params }) {
 
     setLoading(false);
     router.replace("/workspace/" + params?.workspaceid + "/" + docId);
-    console.log("data inserted");
   };
+
   return (
-    <div className="h-screen md:w-72 hidden md:block fixed bg-blue-50 p-5 shadow-md ">
+    <div
+      className="h-screen md:w-72 
+    hidden md:block fixed bg-blue-50 p-5 shadow-md"
+    >
       <div className="flex justify-between items-center">
         <Logo />
-        <NotificationBox>
+        <NotifiationBox>
           <Bell className="h-5 w-5 text-gray-500" />
-        </NotificationBox>
+        </NotifiationBox>
       </div>
       <hr className="my-5"></hr>
       <div>
         <div className="flex justify-between items-center">
           <h2 className="font-medium">Workspace Name</h2>
-          <Button size="sm" onClick={createNewDocument}>
+          <Button size="sm" className="text-lg" onClick={CreateNewDocument}>
             {loading ? <Loader2Icon className="h-4 w-4 animate-spin" /> : "+"}
           </Button>
         </div>
       </div>
-      {/* document list */}
+
+      {/* Document List  */}
       <DocumentList documentList={documentList} params={params} />
+
+      {/* Progress Bar  */}
 
       <div className="absolute bottom-10 w-[85%]">
         <Progress value={(documentList?.length / MAX_FILE) * 100} />
-        <h2 className="text-sm font-light my-2 ">
-          <strong>{documentList?.length}</strong> out of 5 files used
+        <h2 className="text-sm font-light my-2">
+          <strong>{documentList?.length}</strong> Out of <strong>5</strong>{" "}
+          files used
         </h2>
-        <h2 className="text-sm font-light">
-          Upgrade your plan for unlimited access
+        <h2 className="text-sm font-light ">
+          Upgrade your plan for unlimted access
         </h2>
       </div>
     </div>
