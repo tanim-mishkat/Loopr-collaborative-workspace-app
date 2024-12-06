@@ -1,40 +1,204 @@
+---
 
-![Microsoft Loop 2 0](https://github.com/user-attachments/assets/0472309b-50dd-4fdf-90f8-50a65c8b9e14)
+# Loopr | A Collaborative Workspace Application
 
+**Version:** 0.1.0  
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 📚 Project Overview
 
-## Getting Started
+Loopr is a feature-rich, collaborative workspace application built using Next.js. This project allows users to:
+1. Sign up, sign in, and sign out.
+2. Create and manage personal or organizational workspaces.
+3. Write and collaborate on documents, utilize generative AI for content creation, and much more.  
+4. Add comments and receive notifications.  
+5. Upload and set cover images for workspaces and documents.
 
-First, run the development server:
+### 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **User Authentication:** Sign up and sign in with Clerk.js.  
+- **Workspace Management:** Create personal or organizational workspaces.  
+- **Collaborative Documents:** Create, write, and collaborate in real-time.  
+- **Generative AI Support:** Use the Gemini API for AI-assisted writing.  
+- **Emoji Picker:** Add emojis to your workspace and documents.  
+- **Customizable Covers:** Upload and set cover images for workspaces.  
+- **Comments and Notifications:** Add comments and receive notifications.  
+- **User-friendly UI:** Minimalistic design using Radix UI and TailwindCSS.
+
+---
+
+## 🛠️ Technologies Used
+
+- **Framework:** [Next.js](https://nextjs.org/) (v14.2.5)
+- **UI Components:** TailwindCSS, Radix UI
+- **Real-time Collaboration:** Liveblocks
+- **Authentication:** Clerk.js
+- **Generative AI:** Gemini API
+- **Database:** Firebase
+- **Editor:** Editor.js
+
+---
+
+## 📋 Prerequisites
+
+Ensure you have the following installed before setting up the project:
+
+1. **Node.js** (v16 or later)
+2. **npm** or **yarn**
+3. **Firebase Project**
+4. **Clerk.js API Keys**
+5. **Gemini API Key**
+
+---
+
+## ⚙️ Project Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/tanim-mishkat/Loopr-collaborative-workspace-app.git
+   cd loopr
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up Firebase:
+
+   - Create a Firebase project.
+   - Enable Firestore and Authentication in the Firebase Console.
+   - Download the Firebase config and place it in `firebaseConfig.js`.
+
+4. Configure Clerk.js:
+
+   - Sign up for a Clerk.js account.
+   - Copy the API keys and paste them into `.env.local`.
+
+5. Add `.env.local` file:
+
+   ```plaintext
+   NEXT_PUBLIC_CLERK_FRONTEND_API=your_clerk_frontend_api
+   CLERK_API_KEY=your_clerk_api_key
+   FIREBASE_API_KEY=your_firebase_api_key
+   FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+   FIREBASE_PROJECT_ID=your_firebase_project_id
+   ```
+
+6. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   The app will be available at `http://localhost:3000`.
+
+---
+
+# 🖼️ Project Walkthrough
+
+### 1. **Home Page**
+
+The home page allows users to sign up or log in.
+
+#### Sign Up
+
+![Sign Up Screenshot](./signup.png)
+
+#### Sign In
+
+![Sign In Screenshot](./signin.png)
+
+---
+
+### 2. **Dashboard**
+
+After login, users can view their personal and organizational workspaces.  
+![Dashboard Screenshot](./WorkspaceDashboard.png)
+
+---
+
+### 3. **Workspace Creation**
+
+Users can create a workspace by adding a title, cover image, and optional description.  
+![Create Workspace Screenshot](./createWorkspace.png)
+
+---
+
+### 4. **Document Editor**
+
+Within a workspace, users can create and collaborate on documents in real-time.  
+![Document Editor Screenshot](./documentEditor.png)
+
+---
+
+### 5. **Comments and Notifications**
+
+Users can leave comments and stay updated on workspace activity.
+
+#### Comments
+
+![Comments Screenshot](./comment.png)
+
+#### Notifications
+
+![Notifications Screenshot](./notificationimg.png)
+
+---
+
+## 📜 Scripts
+
+- `npm run dev` – Starts the development server.
+- `npm run build` – Builds the project for production.
+- `npm run start` – Starts the production server.
+- `npm run lint` – Runs ESLint checks.
+
+---
+
+## 📂 Folder Structure
+
+```
+microsoft-loop-clone/
+├── components/
+│   ├── Auth/
+│   ├── Dashboard/
+│   ├── Editor/
+│   └── Workspace/
+├── pages/
+│   ├── api/
+│   ├── dashboard.js
+│   ├── index.js
+│   └── workspace/
+├── styles/
+│   ├── globals.css
+│   └── tailwind.css
+├── utils/
+│   ├── firebaseConfig.js
+│   └── liveblocksConfig.js
+├── .env.local
+├── package.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🌟 Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Feel free to fork this project and contribute by submitting pull requests. Make sure to adhere to the project's coding standards.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛡️ License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📧 Contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you have any questions or suggestions, feel free to contact the maintainer at [t5mishkat@example.com].
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+Let me know if you need additional details or customization!
