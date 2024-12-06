@@ -102,46 +102,46 @@ The home page allows users to sign up or log in.
 
 #### Sign Up
 
-![Sign Up Screenshot](./signup.png)
+![Sign Up Screenshot](./public/signup.png)
 
 #### Sign In
 
-![Sign In Screenshot](./signin.png)
+![Sign In Screenshot](./public/signin.png)
 
 ---
 
 ### 2. **Dashboard**
 
 After login, users can view their personal and organizational workspaces.  
-![Dashboard Screenshot](./WorkspaceDashboard.png)
+![Dashboard Screenshot](./public/WorkspaceDashboard.png)
 
 ---
 
 ### 3. **Workspace Creation**
 
-Users can create a workspace by adding a title, cover image, and optional description.  
-![Create Workspace Screenshot](./createWorkspace.png)
+Users can create a workspace by adding a title, cover image, and emoji.  
+![Create Workspace Screenshot](./public/createWorkspace.png)
 
 ---
 
 ### 4. **Document Editor**
 
 Within a workspace, users can create and collaborate on documents in real-time.  
-![Document Editor Screenshot](./documentEditor.png)
+![Document Editor Screenshot](./public/documentEditor.png)
 
 ---
 
 ### 5. **Comments and Notifications**
 
-Users can leave comments and stay updated on workspace activity.
+Users can leave comments and stay updated on workspace activity via notification.
 
 #### Comments
 
-![Comments Screenshot](./comment.png)
+![Comments Screenshot](./public/comment.png)
 
 #### Notifications
 
-![Notifications Screenshot](./notificationimg.png)
+![Notifications Screenshot](./public/notificationimg.png)
 
 ---
 
