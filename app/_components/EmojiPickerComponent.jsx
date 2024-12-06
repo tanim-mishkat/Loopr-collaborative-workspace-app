@@ -1,26 +1,25 @@
-"use client"
-import EmojiPicker from 'emoji-picker-react'
-import React, { useState } from 'react'
+"use client";
+import EmojiPicker from "emoji-picker-react";
+import React, { useState } from "react";
 
-function EmojiPickerComponent({children,setEmojiIcon}) {
-    const [openEmojiPicker,setOpenEmojiPicker]=useState(false)
+function EmojiPickerComponent({ children, setEmojiIcon }) {
+  const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   return (
     <div>
-        <div onClick={()=>setOpenEmojiPicker(true)}>
-            {children}
-        </div>
-       {openEmojiPicker&& 
-       <div className='absolute z-10'>
+      <div onClick={() => setOpenEmojiPicker(true)}>{children}</div>
+      {openEmojiPicker && (
+        <div className="absolute z-10">
           <EmojiPicker
-          emojiStyle='facebook'
-            onEmojiClick={(e)=>{
-                setEmojiIcon(e.emoji);
-                setOpenEmojiPicker(false);
+            emojiStyle="facebook"
+            onEmojiClick={(e) => {
+              setEmojiIcon(e.emoji);
+              setOpenEmojiPicker(false);
             }}
           />
-        </div>}
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default EmojiPickerComponent
+export default EmojiPickerComponent;

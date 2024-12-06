@@ -97,13 +97,15 @@ function SideNav({ params }) {
         className="md:hidden fixed top-5 left-5 z-50"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
-        {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {isSidebarOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
       </button>
 
       {/* Sidebar for Desktop */}
-      <div
-        className="h-screen md:w-72 hidden md:block fixed bg-blue-50 p-5 shadow-md"
-      >
+      <div className="h-screen md:w-72 hidden md:block fixed bg-blue-50 p-5 shadow-md">
         <div className="flex justify-between items-center">
           <Logo />
           <NotifiationBox>
@@ -127,7 +129,8 @@ function SideNav({ params }) {
         <div className="absolute bottom-10 w-[85%]">
           <Progress value={(documentList?.length / MAX_FILE) * 100} />
           <h2 className="text-sm font-light my-2">
-            <strong>{documentList?.length}</strong> Out of <strong>5</strong> files used
+            <strong>{documentList?.length}</strong> Out of <strong>5</strong>{" "}
+            files used
           </h2>
           <h2 className="text-sm font-light ">
             Upgrade your plan for unlimited access
@@ -137,9 +140,7 @@ function SideNav({ params }) {
 
       {/* Sidebar Drawer for Mobile */}
       {isSidebarOpen && (
-        <div
-          className="fixed top-0 left-0 w-[75%] h-full bg-blue-50 shadow-md p-5 z-40 md:hidden"
-        >
+        <div className="fixed top-0 left-0 w-[75%] h-full bg-blue-50 shadow-md p-5 z-40 md:hidden">
           <div className="flex justify-between items-center">
             <Logo />
             <button
@@ -170,7 +171,8 @@ function SideNav({ params }) {
           <div className="absolute bottom-10 w-[85%]">
             <Progress value={(documentList?.length / MAX_FILE) * 100} />
             <h2 className="text-sm font-light my-2">
-              <strong>{documentList?.length}</strong> Out of <strong>5</strong> files used
+              <strong>{documentList?.length}</strong> Out of <strong>5</strong>{" "}
+              files used
             </h2>
             <h2 className="text-sm font-light ">
               Upgrade your plan for unlimited access
