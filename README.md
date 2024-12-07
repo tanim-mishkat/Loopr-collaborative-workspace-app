@@ -20,7 +20,7 @@ Loopr is a feature-rich, collaborative workspace application built using Next.js
 - **Emoji Picker:** Add emojis to your workspace and documents.  
 - **Customizable Covers:** Upload and set cover images for workspaces.  
 - **Comments and Notifications:** Add comments and receive notifications.  
-- **User-friendly UI:** Minimalistic design using Radix UI and TailwindCSS.
+- **User-friendly UI:** Minimalistic design using ShadCN, Radix UI and TailwindCSS.
 
 ---
 
