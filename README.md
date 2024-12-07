@@ -27,7 +27,7 @@ Loopr is a feature-rich, collaborative workspace application built using Next.js
 ## 🛠️ Technologies Used
 
 - **Framework:** [Next.js](https://nextjs.org/) (v14.2.5)
-- **UI Components:** TailwindCSS, Radix UI
+- **UI Components:** TailwindCSS, ShadCN, Radix UI
 - **Real-time Collaboration:** Liveblocks
 - **Authentication:** Clerk.js
 - **Generative AI:** Gemini API
