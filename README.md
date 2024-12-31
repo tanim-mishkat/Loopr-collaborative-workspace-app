@@ -1,17 +1,21 @@
-# Loopr | A Collaborative Workspace Application
+Here’s the updated content with the demo video link included:  
+
+---
+
+# Loopr | A Collaborative Workspace Application  
 
 **Version:** 0.1.0  
 
-## 📚 Project Overview
+## 📚 Project Overview  
 
-Loopr is a feature-rich, collaborative workspace application built using Next.js. This project allows users to:
-1. Sign up, sign in, and sign out.
-2. Create and manage personal or organizational workspaces.
+Loopr is a feature-rich, collaborative workspace application built using Next.js. This project allows users to:  
+1. Sign up, sign in, and sign out.  
+2. Create and manage personal or organizational workspaces.  
 3. Write and collaborate on documents, utilize generative AI for content creation, and much more.  
 4. Add comments and receive notifications.  
-5. Upload and set cover images for workspaces and documents.
+5. Upload and set cover images for workspaces and documents.  
 
-### 🚀 Features
+### 🚀 Features  
 
 - **User Authentication:** Sign up and sign in with Clerk.js.  
 - **Workspace Management:** Create personal or organizational workspaces.  
@@ -20,21 +24,27 @@ Loopr is a feature-rich, collaborative workspace application built using Next.js
 - **Emoji Picker:** Add emojis to your workspace and documents.  
 - **Customizable Covers:** Upload and set cover images for workspaces.  
 - **Comments and Notifications:** Add comments and receive notifications.  
-- **User-friendly UI:** Minimalistic design using ShadCN, Radix UI and TailwindCSS.
+- **User-friendly UI:** Minimalistic design using ShadCN, Radix UI, and TailwindCSS.  
 
 ---
 
-## 🛠️ Technologies Used
+## 🎥 Demo Video  
 
-- **Framework:** [Next.js](https://nextjs.org/) (v14.2.5)
-- **UI Components:** TailwindCSS, ShadCN, Radix UI
-- **Real-time Collaboration:** Liveblocks
-- **Authentication:** Clerk.js
-- **Generative AI:** Gemini API
-- **Database:** Firebase
-- **Editor:** Editor.js
+Check out the full project demo on YouTube: [Loopr - Collaborative Workspace App Demo](https://youtu.be/xinHzGWfjxc)  
 
 ---
+
+## 🛠️ Technologies Used  
+
+- **Framework:** [Next.js](https://nextjs.org/) (v14.2.5)  
+- **UI Components:** TailwindCSS, ShadCN, Radix UI  
+- **Real-time Collaboration:** Liveblocks  
+- **Authentication:** Clerk.js  
+- **Generative AI:** Gemini API  
+- **Database:** Firebase  
+- **Editor:** Editor.js  
+
+---  
 
 ## 📋 Prerequisites
 
@@ -195,7 +205,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## 📧 Contact
 
-If you have any questions or suggestions, feel free to contact the maintainer at [t5mishkat@example.com].
+If you have any questions or suggestions, feel free to contact the maintainer at [t5mishkat@gmail.com].
 
 ---
 
