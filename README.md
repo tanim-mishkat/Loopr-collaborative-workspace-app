@@ -1,7 +1,3 @@
-Here’s the updated content with the demo video link included:  
-
----
-
 # Loopr | A Collaborative Workspace Application  
 
 **Version:** 0.1.0  
