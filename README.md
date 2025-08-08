@@ -51,6 +51,7 @@ Ensure you have the following installed before setting up the project:
 3. **Firebase Project**
 4. **Clerk.js API Keys**
 5. **Gemini API Key**
+6. **Vercel Account** (for deployment)
 
 ---
 
@@ -97,6 +98,114 @@ Ensure you have the following installed before setting up the project:
    ```
 
    The app will be available at `http://localhost:3000`.
+
+---
+
+## 🚀 Deployment Guide
+
+### Deploying to Vercel
+
+Loopr is optimized for deployment on Vercel. Follow these steps to deploy your own instance:
+
+1. **Create a Vercel Account**
+   - Sign up at [vercel.com](https://vercel.com) if you don't have an account
+
+2. **Install Vercel CLI** (Optional)
+   ```bash
+   npm install -g vercel
+   ```
+
+3. **Deploy from GitHub**
+   - Fork this repository to your GitHub account
+   - Log in to your Vercel dashboard
+   - Click "New Project"
+   - Import your forked repository
+   - Configure the project settings:
+     - Framework Preset: Next.js
+     - Root Directory: ./
+     - Build Command: next build
+     - Output Directory: .next
+
+4. **Configure Environment Variables**
+   - Add all the environment variables from your `.env.local` file to the Vercel project settings
+   - Required variables:
+     ```
+     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+     CLERK_SECRET_KEY
+     NEXT_PUBLIC_CLERK_SIGN_IN_URL
+     NEXT_PUBLIC_CLERK_SIGN_UP_URL
+     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
+     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
+     NEXT_PUBLIC_FIREBASE_API_KEY
+     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+     NEXT_PUBLIC_FIREBASE_PROJECT_ID
+     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+     NEXT_PUBLIC_FIREBASE_APP_ID
+     NEXT_PUBLIC_GEMINI_API_KEY
+     NEXT_PUBLIC_MAX_FILE_SIZE
+     ```
+
+5. **Deploy**
+   - Click "Deploy"
+   - Vercel will build and deploy your application
+   - Once complete, you'll receive a production URL
+
+6. **Custom Domain** (Optional)
+   - In your Vercel project settings, navigate to "Domains"
+   - Add and configure your custom domain
+
+### Performance Optimization Tips
+
+1. **Enable Caching**
+   - Utilize Vercel's Edge Cache for improved performance
+   - Add caching headers to static assets
+
+2. **Image Optimization**
+   - Use Next.js Image component for automatic optimization
+   - Consider using a CDN for large media files
+
+3. **Monitoring**
+   - Enable Vercel Analytics to monitor performance
+   - Set up error tracking with Sentry or similar services
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+#### JSON Parsing Errors
+
+If you encounter `Unexpected end of JSON input` errors:
+
+1. **Check Firebase Data**: Ensure your document data in Firebase is properly formatted JSON
+2. **Clear Browser Cache**: Sometimes cached data can cause parsing issues
+3. **Verify Document Structure**: Make sure your document structure follows the Editor.js format
+
+#### Editor.js Rendering Issues
+
+If the editor fails to render content:
+
+1. **Check Browser Console**: Look for specific error messages
+2. **Verify Editor Initialization**: Make sure the editor is properly initialized before rendering content
+3. **Check Data Format**: Ensure the data structure matches what Editor.js expects
+
+#### Authentication Problems
+
+If you experience issues with Clerk authentication:
+
+1. **Verify Environment Variables**: Double-check all Clerk-related environment variables
+2. **Check Clerk Dashboard**: Ensure your application is properly configured in the Clerk dashboard
+3. **Clear Browser Cookies**: Sometimes authentication issues can be resolved by clearing cookies
+
+#### Slow Performance
+
+If the application feels sluggish:
+
+1. **Optimize Images**: Ensure all images are properly optimized
+2. **Reduce Bundle Size**: Consider code splitting and lazy loading components
+3. **Check Network Tab**: Use browser dev tools to identify slow network requests
 
 ---
 

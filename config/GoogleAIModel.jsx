@@ -1,29 +1,82 @@
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
+// Initialize the Gemini API with your API key
+// Make sure to add your API key to the .env file
+// NEXT_PUBLIC_GEMINI_API_KEY=your_api_key_here
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
+// Validate API key format before initializing
+if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
+  console.warn("Gemini API key is not configured properly. Please check your .env file.");
+}
 
+// Initialize with error handling
+let genAI;
+try {
+  genAI = new GoogleGenerativeAI(apiKey);
+} catch (error) {
+  console.error("Error initializing Gemini API:", error);
+  // Provide a fallback to prevent app from crashing
+  genAI = {
+    getGenerativeModel: () => ({
+      startChat: () => ({
+        sendMessage: async () => {
+          throw new Error("Gemini API failed to initialize. Please check your API key.");
+        }
+      })
+    })
+  };
+}
+
+// Define generation config with optimized parameters for JSON generation
 const generationConfig = {
-  temperature: 1,
+  temperature: 0.2, // Lower temperature for more deterministic JSON output
   topP: 0.95,
   topK: 64,
   maxOutputTokens: 8192,
   responseMimeType: "application/json",
 };
 
-export const chatSession = model.startChat({
-  generationConfig,
-  // safetySettings: Adjust safety settings
-  // See https://ai.google.dev/gemini-api/docs/safety-settings
-  history: [
+// Initialize model with error handling
+let model;
+try {
+  model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    safetySettings: [
+      {
+        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+      },
+    ],
+  });
+} catch (error) {
+  console.error("Error initializing Gemini model:", error);
+  // Provide a fallback to prevent app from crashing
+  model = {
+    startChat: () => ({
+      sendMessage: async () => {
+        throw new Error("Gemini model failed to initialize. Please try again later.");
+      }
+    })
+  };
+}
+
+// Initialize chat session with error handling
+let chatSession;
+try {
+  chatSession = model.startChat({
+    generationConfig,
+    // Safety settings are already defined in the model initialization
+    // Retry options for handling transient errors
+    retry: {
+      retryDelay: 1000, // 1 second delay between retries
+      maxRetries: 3,     // Maximum 3 retries
+    },
+    history: [
     {
       role: "user",
       parts: [
@@ -41,4 +94,16 @@ export const chatSession = model.startChat({
       ],
     },
   ],
-});
+  });
+} catch (error) {
+  console.error("Error initializing chat session:", error);
+  // Provide a fallback chat session to prevent app from crashing
+  chatSession = {
+    sendMessage: async () => {
+      throw new Error("Chat session failed to initialize. Please refresh the page and try again.");
+    }
+  };
+}
+
+// Export the chat session
+export { chatSession };

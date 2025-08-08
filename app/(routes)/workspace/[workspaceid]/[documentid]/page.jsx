@@ -1,15 +1,18 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { use } from "react";
 import SideNav from "../../_components/SideNav";
 import DocumentEditorSection from "../../_components/DocumentEditorSection";
 import { Room } from "@/app/Room";
 
-function WorkspaceDocument({ params }) {
+function WorkspaceDocument({ params: paramsPromise }) {
+  const params = use(paramsPromise); // ✅ Unwrap the params promise
+
   return (
     <Room params={params}>
       <div>
         {/* Side Nav  */}
-        <div className="">
+        <div>
           <SideNav params={params} />
         </div>
 
