@@ -3,7 +3,7 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
 // Initialize the Gemini API with your API key
 // Make sure to add your API key to the .env file
 // NEXT_PUBLIC_GEMINI_API_KEY=your_api_key_here
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const apiKey = process.env.GEMINI_KEY;
 
 // Validate API key format before initializing
 if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
