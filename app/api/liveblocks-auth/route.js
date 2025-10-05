@@ -1,12 +1,17 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { Liveblocks } from "@liveblocks/node";
 
-const liveblocks = new Liveblocks({
-  secret: process.env.LIVEBLOCKS_SECRET_KEY,
-});
-
 export async function POST(request) {
   try {
+    // Initialize Liveblocks with error handling
+    const secretKey = process.env.LIVEBLOCKS_SECRET_KEY;
+    if (!secretKey) {
+      throw new Error("LIVEBLOCKS_SECRET_KEY environment variable is not set");
+    }
+    
+    const liveblocks = new Liveblocks({
+      secret: secretKey,
+    });
     // Get the current user from your database
     const user = await currentUser();
     
