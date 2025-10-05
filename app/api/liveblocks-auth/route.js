@@ -2,7 +2,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Liveblocks } from "@liveblocks/node";
 
 const liveblocks = new Liveblocks({
-  secret: process.env.LIVEBLOCK_SK,
+  secret: process.env.LIVEBLOCKS_SECRET_KEY,
 });
 
 export async function POST(request) {
